@@ -1,0 +1,92 @@
+[[1;34mINFO[m] Scanning for projects...
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m------------------< [0;36mcom.skillsync:skillsync-backend[0;1m >-------------------[m
+[[1;34mINFO[m] [1mBuilding skillsync-backend 0.0.1-SNAPSHOT[m
+[[1;34mINFO[m] [1m--------------------------------[ jar ]---------------------------------[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m>>> [0;32mspring-boot-maven-plugin:3.3.3:run[m [1m(default-cli)[0;1m > [0;1mtest-compile[m @ [36mskillsync-backend[0;1m >>>[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:resources[m [1m(default-resources)[m @ [36mskillsync-backend[0;1m ---[m
+[[1;34mINFO[m] Copying 1 resource from src/main/resources to target/classes
+[[1;34mINFO[m] Copying 0 resource from src/main/resources to target/classes
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:compile[m [1m(default-compile)[m @ [36mskillsync-backend[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mskillsync-backend[0;1m ---[m
+[[1;34mINFO[m] skip non existing resourceDirectory /home/stefina/clg work/SkillSync/backend/skillsync-backend/src/test/resources
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.13.0:testCompile[m [1m(default-testCompile)[m @ [36mskillsync-backend[0;1m ---[m
+[[1;34mINFO[m] Nothing to compile - all classes are up to date.
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m<<< [0;32mspring-boot-maven-plugin:3.3.3:run[m [1m(default-cli)[0;1m < [0;1mtest-compile[m @ [36mskillsync-backend[0;1m <<<[m
+[[1;34mINFO[m] 
+[[1;34mINFO[m] 
+[[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:3.3.3:run[m [1m(default-cli)[m @ [36mskillsync-backend[0;1m ---[m
+[[1;34mINFO[m] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.3)
+
+2025-09-28T20:01:24.291+05:30  INFO 77618 --- [           main] c.s.s.SkillSyncBackendApplication        : Starting SkillSyncBackendApplication using Java 21.0.8 with PID 77618 (/home/stefina/clg work/SkillSync/backend/skillsync-backend/target/classes started by stefina in /home/stefina/clg work/SkillSync/backend/skillsync-backend)
+2025-09-28T20:01:24.292+05:30  INFO 77618 --- [           main] c.s.s.SkillSyncBackendApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-09-28T20:01:24.649+05:30  INFO 77618 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-28T20:01:24.683+05:30  INFO 77618 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 30 ms. Found 5 JPA repository interfaces.
+2025-09-28T20:01:24.971+05:30  INFO 77618 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-28T20:01:24.986+05:30  INFO 77618 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-28T20:01:24.986+05:30  INFO 77618 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-09-28T20:01:25.023+05:30  INFO 77618 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-28T20:01:25.024+05:30  INFO 77618 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 700 ms
+2025-09-28T20:01:25.110+05:30  INFO 77618 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-28T20:01:25.134+05:30  INFO 77618 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-09-28T20:01:25.148+05:30  INFO 77618 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-28T20:01:25.287+05:30  INFO 77618 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-28T20:01:25.300+05:30  INFO 77618 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-28T20:01:25.399+05:30  INFO 77618 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:localdb user=SA
+2025-09-28T20:01:25.400+05:30  INFO 77618 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-28T20:01:25.415+05:30  WARN 77618 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-28T20:01:25.976+05:30  INFO 77618 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists favorite_jobs cascade 
+Hibernate: drop table if exists job_applications cascade 
+Hibernate: drop table if exists job_posting cascade 
+Hibernate: drop table if exists job_posting_skills cascade 
+Hibernate: drop table if exists resume cascade 
+Hibernate: drop table if exists resume_skills cascade 
+Hibernate: drop table if exists users cascade 
+Hibernate: create table favorite_jobs (id bigint generated by default as identity, job_posting_id bigint not null, user_id bigint not null, primary key (id))
+Hibernate: create table job_applications (id bigint generated by default as identity, job_posting_id bigint, user_id bigint, status varchar(255), primary key (id))
+Hibernate: create table job_posting (salary float(53), id bigint generated by default as identity, company varchar(255), description varchar(255), job_type varchar(255), location varchar(255), title varchar(255), url varchar(255), primary key (id))
+Hibernate: create table job_posting_skills (job_posting_id bigint not null, skills varchar(255))
+Hibernate: create table resume (id bigint generated by default as identity, content varchar(255), filename varchar(255), primary key (id))
+Hibernate: create table resume_skills (resume_id bigint not null, skills varchar(255))
+Hibernate: create table users (id bigint generated by default as identity, password varchar(255) not null, role varchar(255) not null, username varchar(255) not null unique, primary key (id))
+Hibernate: alter table if exists favorite_jobs add constraint FKayc23o2okix7fljh4nes906ok foreign key (job_posting_id) references job_posting
+Hibernate: alter table if exists favorite_jobs add constraint FKiclfk9qmfek00idgqe00tmu7u foreign key (user_id) references users
+Hibernate: alter table if exists job_applications add constraint FK13gb1oq8h7rs6un6xj304yg3c foreign key (job_posting_id) references job_posting
+Hibernate: alter table if exists job_applications add constraint FKqs2guhg7p83917vto86imuthy foreign key (user_id) references users
+Hibernate: alter table if exists job_posting_skills add constraint FK17d1x3q5egoj9cnoy8yniiej3 foreign key (job_posting_id) references job_posting
+Hibernate: alter table if exists resume_skills add constraint FK5406bdq6opxevvh08y8uvh4ee foreign key (resume_id) references resume
+2025-09-28T20:01:26.010+05:30  INFO 77618 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-28T20:01:26.196+05:30  WARN 77618 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-28T20:01:26.218+05:30  INFO 77618 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2025-09-28T20:01:26.988+05:30  INFO 77618 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-28T20:01:26.993+05:30  INFO 77618 --- [           main] c.s.s.SkillSyncBackendApplication        : Started SkillSyncBackendApplication in 2.904 seconds (process running for 3.12)
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;34mINFO[m] Total time:  11:34 min
+[[1;34mINFO[m] Finished at: 2025-09-28T20:12:57+05:30
+[[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[[1;31mERROR[m] Failed to execute goal [32morg.springframework.boot:spring-boot-maven-plugin:3.3.3:run[m [1m(default-cli)[m on project [36mskillsync-backend[m: [1;31mProcess terminated with exit code: 137[m -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

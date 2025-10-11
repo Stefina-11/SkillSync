@@ -1,0 +1,11 @@
+
+> skillsync-frontend@0.0.1 dev
+> vite dev
+
+8:01:57 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v7.1.7  ready in 789 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help

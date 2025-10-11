@@ -1,0 +1,64 @@
+<script lang="ts">
+  import { loginUser, registerUser } from '$lib/apiService';
+  import { goto } from '$app/navigation';
+
+  let username = '';
+  let password = '';
+  let isLogin = true;
+  let role = 'ROLE_USER';
+  let authError = '';
+
+  async function handleAuth() {
+    authError = '';
+    try {
+      if (isLogin) {
+        const data = await loginUser(username, password);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role || 'ROLE_USER');
+        goto('/dashboard');
+      } else {
+        await registerUser(username, password, role);
+        isLogin = true;
+      }
+    } catch (e: any) {
+      authError = e?.message || 'Auth failed';
+    }
+  }
+
+  // If already logged in, redirect to dashboard
+  if (typeof localStorage !== 'undefined') {
+    const t = localStorage.getItem('token');
+    if (t) goto('/dashboard');
+  }
+</script>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+  <div class="w-full max-w-md bg-white rounded shadow p-6">
+    <h1 class="text-2xl font-bold mb-4">SkillSync</h1>
+
+    <div class="mb-4">
+      <input placeholder="Username" bind:value={username} class="w-full border px-2 py-2 mb-2" />
+      <input placeholder="Password" type="password" bind:value={password} class="w-full border px-2 py-2" />
+    </div>
+
+    {#if !isLogin}
+      <div class="mb-3">
+        <label class="block mb-1">Register as</label>
+        <select bind:value={role} class="w-full border px-2 py-2">
+          <option value="ROLE_USER">Job Seeker</option>
+          <option value="ROLE_RECRUITER">Recruiter</option>
+          <option value="ROLE_ADMIN">Admin</option>
+        </select>
+      </div>
+    {/if}
+
+    <div class="flex gap-2">
+      <button on:click={handleAuth} class="bg-blue-500 text-white px-4 py-2 rounded">{isLogin ? 'Login' : 'Register'}</button>
+      <button on:click={() => { isLogin = !isLogin; authError = ''; }} class="underline text-sm">{isLogin ? 'Need an account? Register' : 'Have an account? Login'}</button>
+    </div>
+
+    {#if authError}
+      <div class="text-red-500 mt-3">{authError}</div>
+    {/if}
+  </div>
+</div>
