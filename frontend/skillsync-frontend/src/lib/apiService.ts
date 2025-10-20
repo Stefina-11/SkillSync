@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080'; // Backend runs on 8080 locally
+const BASE_URL = 'http://localhost:8081'; // Backend runs on 8081 locally
 
 function authHeader(token?: string): Record<string, string> {
   return token ? { 'Authorization': `Bearer ${token}` } : {};
@@ -81,10 +81,13 @@ export async function updateProfile(token: string, profile: { password?: string;
 }
 
 export async function registerUser(username: string, password: string, role: string = 'ROLE_USER') {
+  // Temporarily add a placeholder email as the backend requires it.
+  // In a real application, an email input field would be added to the registration form.
+  const email = `${username}@example.com`; 
   const response = await fetch(`${BASE_URL}/api/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, role })
+    body: JSON.stringify({ username, password, role, email })
   });
   if (!response.ok) throw new Error('Registration failed');
   return response.json();
@@ -137,7 +140,14 @@ export async function fetchJobPostings(filters?: { keyword?: string; location?: 
     if (filters.minSalary != null) params.append('minSalary', String(filters.minSalary));
   }
   const url = `${BASE_URL}/api/jobs${params.toString() ? `?${params.toString()}` : ''}`;
-  const response = await fetch(url);
+
+  const token = localStorage.getItem('token');
+  const headers: Record<string, string> = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, { headers });
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }

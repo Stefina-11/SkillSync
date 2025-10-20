@@ -22,24 +22,16 @@
   // Extended profile fields
   let jobTitle = '';
   let careerLevel = '';
-  let experience: Array<{ years: number; companies?: string[]; summary?: string }> = [];
-  let education: Array<{ degree?: string; college?: string; passingYear?: number }> = [];
   let preferredLocations: string[] = [];
   let preferredLocationsString = '';
   let expectedSalaryRange: { min?: number; max?: number } = {};
   let workType = '';
   let employmentType = '';
-  let achievements: Array<{ title: string; description?: string; year?: number }> = [];
-  let achievementTitle = '';
-  let achievementYear: string = '';
 
   let latestResume: { id: number; filename: string; content: string; skills: string[]; userId: number } | null = null;
 
   // State for collapsible sections
   let showJobPreferences = false;
-  let showAchievements = false;
-  let showExperience = false; // New state for collapsible experience section
-  let showEducation = false; // New state for collapsible education section
   let showAvatarModal = false; // New state for avatar modal
 
   onMount(() => {
@@ -71,14 +63,11 @@
       avatarDataUrl = profile.avatarDataUrl || '';
       jobTitle = profile.jobTitle || '';
       careerLevel = profile.careerLevel || '';
-      experience = profile.experience || [];
-      education = profile.education || [];
       preferredLocations = profile.preferredLocations || [];
       preferredLocationsString = preferredLocations.join(', ');
       expectedSalaryRange = profile.expectedSalaryRange || {};
       workType = profile.workType || '';
       employmentType = profile.employmentType || '';
-      achievements = profile.achievements || [];
       profileError = '';
       // load latest resume if available
       try {
@@ -101,7 +90,7 @@
     try {
       // sync preferredLocations from string
       preferredLocations = preferredLocationsString.split(',').map(s => s.trim()).filter(Boolean);
-      const profileToSave = { password: newPassword, email: email, phone, bio, linkedin, github, avatarDataUrl, fullName, jobTitle, careerLevel, experience, education, preferredLocations, expectedSalaryRange, workType, employmentType, achievements };
+      const profileToSave = { password: newPassword, email: email, phone, bio, linkedin, github, avatarDataUrl, fullName, jobTitle, careerLevel, preferredLocations, expectedSalaryRange, workType, employmentType };
       console.log('ProfileSettings: Saving profile:', profileToSave); // Debug log
       await updateProfile(token, profileToSave);
       newPassword = '';
@@ -135,14 +124,11 @@
       avatarDataUrl = profile.avatarDataUrl || '';
       jobTitle = profile.jobTitle || '';
       careerLevel = profile.careerLevel || '';
-      experience = profile.experience || [];
-      education = profile.education || [];
       preferredLocations = profile.preferredLocations || [];
       preferredLocationsString = preferredLocations.join(', ');
       expectedSalaryRange = profile.expectedSalaryRange || {};
       workType = profile.workType || '';
       employmentType = profile.employmentType || '';
-      achievements = profile.achievements || [];
     }
     newPassword = '';
     profileError = '';
@@ -181,10 +167,6 @@
       workType,
       employmentType,
       ((expectedSalaryRange.min !== undefined && expectedSalaryRange.min !== null) || (expectedSalaryRange.max !== undefined && expectedSalaryRange.max !== null)) ? 'ok' : '', // Check if min or max salary is set
-      experience.some(exp => exp.years > 0 || (exp.companies && exp.companies.length > 0) || (exp.summary && exp.summary.trim() !== '')) ? 'ok' : '',
-      education.some(edu => (edu.degree && edu.degree.trim() !== '') || (edu.college && edu.college.trim() !== '') || (edu.passingYear !== undefined && edu.passingYear !== null)) ? 'ok' : '',
-      achievements.some(a => a.title && a.title.trim() !== '') ? 'ok' : '',
-      latestResume ? 'ok' : ''
     ];
     const weight = 100 / checks.length;
     checks.forEach(c => { if (c) score += weight; });
@@ -336,83 +318,8 @@
               <input type="number" bind:value={expectedSalaryRange.max} class="border px-2 py-1 w-full rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
             </div>
           </div>
-        {/if}
-      </div>
-
-      <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2 border-t pt-2 section-box">
-        <button on:click={() => (showExperience = !showExperience)} class="w-full text-left font-semibold text-pink-600 text-base mb-1 flex justify-between items-center">
-          Experience
-          <svg class="w-3 h-3 transition-transform {showExperience ? 'rotate-90' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        </button>
-        {#if showExperience}
-          <div class="flex flex-col gap-2 mb-1">
-            {#each experience as exp, idx}
-              <div class="border p-2 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);">
-                <div class="flex justify-between items-center mb-1">
-                  <input type="number" placeholder="Years" bind:value={exp.years} class="border px-2 py-1 w-20 rounded text-xs" on:input={() => editing = true} />
-                  <button on:click={() => { experience = experience.filter((_, i) => i !== idx); editing = true; }} class="text-red-500 p-1 rounded-full hover:bg-red-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-                <input type="text" placeholder="Companies (comma separated)" bind:value={exp.companies} class="border px-2 py-1 w-full rounded text-xs mb-1" on:input={() => editing = true} />
-                <textarea placeholder="Summary" bind:value={exp.summary} class="border px-2 py-1 w-full rounded text-xs" rows="2" on:input={() => editing = true}></textarea>
-              </div>
-            {/each}
-            <button class="bg-gray-200 px-2 py-1 rounded text-xs" on:click={() => { experience = [...experience, { years: 0, companies: [], summary: '' }]; editing = true; }}>Add Experience</button>
-          </div>
-        {/if}
-      </div>
-
-      <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2 border-t pt-2 section-box">
-        <button on:click={() => (showEducation = !showEducation)} class="w-full text-left font-semibold text-pink-600 text-base mb-1 flex justify-between items-center">
-          Education
-          <svg class="w-3 h-3 transition-transform {showEducation ? 'rotate-90' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        </button>
-        {#if showEducation}
-          <div class="flex flex-col gap-2 mb-1">
-            {#each education as edu, idx}
-              <div class="border p-2 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);">
-                <div class="flex justify-between items-center mb-1">
-                  <input type="text" placeholder="Degree" bind:value={edu.degree} class="border px-2 py-1 flex-grow w-full rounded text-xs" on:input={() => editing = true} />
-                  <button on:click={() => { education = education.filter((_, i) => i !== idx); editing = true; }} class="text-red-500 p-1 rounded-full hover:bg-red-100">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
-                </div>
-                <input type="text" placeholder="College" bind:value={edu.college} class="border px-2 py-1 w-full rounded text-xs mb-1" on:input={() => editing = true} />
-                <input type="number" placeholder="Passing Year" bind:value={edu.passingYear} class="border px-2 py-1 w-full rounded text-xs" on:input={() => editing = true} />
-              </div>
-            {/each}
-            <button class="bg-gray-200 px-2 py-1 rounded text-xs" on:click={() => { education = [...education, { degree: '', college: '', passingYear: undefined }]; editing = true; }}>Add Education</button>
-          </div>
-        {/if}
-      </div>
-
-      <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2 border-t pt-2 section-box">
-        <button on:click={() => (showAchievements = !showAchievements)} class="w-full text-left font-semibold text-pink-600 text-base mb-1 flex justify-between items-center">
-          Achievements
-          <svg class="w-3 h-3 transition-transform {showAchievements ? 'rotate-90' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-        </button>
-        {#if showAchievements}
-          <div class="flex flex-col sm:flex-row gap-2 mb-1">
-            <input type="text" placeholder="Title" bind:value={achievementTitle} class="border px-2 py-2 flex-grow w-full max-w-lg rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" />
-            <input type="text" placeholder="Year" bind:value={achievementYear} class="border px-2 py-1 w-24 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" />
-            <button class="bg-gray-200 px-2 py-1 rounded text-xs" on:click={() => { if (achievementTitle.trim()) { achievements = [...achievements, { title: achievementTitle.trim(), year: Number(achievementYear)||undefined }]; achievementTitle = ''; achievementYear=''; editing = true; } }}>Add</button>
-          </div>
-          <div class="mt-1">
-            {#each achievements as a, idx}
-              <div class="flex items-center gap-1 text-xs">
-                <div>{a.title} {a.year ? `(${a.year})` : ''}</div>
-                <button on:click={() => { achievements = achievements.filter((_, i) => i !== idx); editing = true; }} class="text-red-500 p-1 rounded-full hover:bg-red-100">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-            {/each}
+          <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2">
+            <button on:click={saveProfile} class="bg-pink-600 text-white px-3 py-1.5 rounded shadow hover:bg-pink-700 text-sm">Save Job Preferences</button>
           </div>
         {/if}
       </div>

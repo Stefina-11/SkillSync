@@ -17,6 +17,7 @@
 
   // State for ResumeUpload component
   let extractedSkills: string[] = [];
+  let resumeId: number | null = null;
 
   // Tab management
   let activeTab: string = 'profile'; // Default tab for users
@@ -130,7 +131,7 @@
         </div>
       {:else if activeTab === 'resume_upload'}
         <div class="tab-content p-4"> <!-- Reduced padding -->
-          <ResumeUpload {token} bind:extractedSkills />
+          <ResumeUpload {token} bind:extractedSkills bind:resumeId />
         </div>
       {:else if activeTab === 'job_search'}
         <div class="tab-content p-4"> <!-- Reduced padding -->
