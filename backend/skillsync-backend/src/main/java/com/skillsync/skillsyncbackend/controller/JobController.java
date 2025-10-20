@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +27,13 @@ import org.springframework.data.domain.Pageable;
 @RequestMapping("/api/jobs")
 public class JobController {
 
-    @Autowired
-    private JobScrapingService jobScrapingService;
+    private static final Logger logger = LoggerFactory.getLogger(JobController.class);
 
     @Autowired
     private ResumeService resumeService;
+
+    @Autowired // Added Autowired for jobScrapingService
+    private JobScrapingService jobScrapingService;
 
     @Autowired
     private SkillMatchingService skillMatchingService;
@@ -78,31 +82,26 @@ public class JobController {
             @RequestParam(value = "jobType", required = false) String jobType,
             @RequestParam(value = "minSalary", required = false) Double minSalary
     ) {
-        List<JobPosting> all = jobScrapingService.getAllJobPostings();
-        List<JobPosting> filtered = all.stream().filter(j -> {
-            boolean ok = true;
-            if (keyword != null && !keyword.isBlank()) {
-                String k = keyword.toLowerCase();
-                ok &= (j.getTitle() != null && j.getTitle().toLowerCase().contains(k))
-                        || (j.getCompany() != null && j.getCompany().toLowerCase().contains(k))
-                        || (j.getDescription() != null && j.getDescription().toLowerCase().contains(k));
-            }
-            if (location != null && !location.isBlank()) {
-                ok &= j.getLocation() != null && j.getLocation().toLowerCase().contains(location.toLowerCase());
-            }
-            if (jobType != null && !jobType.isBlank()) {
-                ok &= j.getJobType() != null && j.getJobType().equalsIgnoreCase(jobType);
-            }
-            if (minSalary != null) {
-                ok &= j.getSalary() != null && j.getSalary() >= minSalary;
-            }
-            return ok;
-        }).toList();
-        return ResponseEntity.ok(filtered);
+        logger.info("Received request for getJobs with filters: keyword={}, location={}, jobType={}, minSalary={}",
+                keyword, location, jobType, minSalary);
+        try {
+            List<JobPosting> filteredJobs = jobPostingRepository.findByFilters(keyword, location, jobType, minSalary);
+            logger.info("Found {} job postings after filtering.", filteredJobs.size());
+            return ResponseEntity.ok(filteredJobs);
+        } catch (Exception e) {
+            logger.error("Error fetching job postings with filters: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+    // This endpoint is for scraping and saving jobs, not for general listing.
+    // It should probably be moved to an Admin or dedicated scraping controller if not already.
+    // For now, keeping it as is, but noting its distinct purpose.
     @PostMapping("/fetch")
+    @PreAuthorize("hasRole('ADMIN')") // Assuming only admin can trigger scraping
     public ResponseEntity<List<JobPosting>> fetchJobs() {
+        // This method should ideally be in a service and called by an admin endpoint
+        // For now, it remains here as per existing structure.
         return ResponseEntity.ok(jobScrapingService.fetchAndSaveJobPostings());
     }
 

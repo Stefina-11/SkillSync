@@ -28,11 +28,15 @@
     <div class="text-red-500 mb-2">{appError}</div>
   {/if}
   {#if myApplications.length > 0}
-    <ul>
+    <div class="space-y-4">
       {#each myApplications as app}
-        <li class="mb-2">Job: {app.jobPosting?.title} | Status: {app.status}</li>
+        <div class="border p-4 rounded bg-white shadow-lg shadow-pink-500/50">
+          <h4 class="text-lg font-semibold">{app.jobPosting?.title}</h4>
+          <p class="text-gray-600">Company: {app.jobPosting?.company}</p>
+          <p class="text-gray-500 text-sm">Status: {app.status}</p>
+        </div>
       {/each}
-    </ul>
+    </div>
   {:else}
     <div>No applications yet.</div>
   {/if}

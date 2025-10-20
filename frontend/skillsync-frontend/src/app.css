@@ -1,3 +1,144 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+/* Base CSS variables for theme */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #1a202c;
+  --header-border-color: #eee;
+  --tab-bg-color: #ffffff;
+  --tab-text-color-active: #1d4ed8; /* blue-700 */
+  --tab-text-color-inactive: #3b82f6; /* blue-500 */
+  --tab-border-color: #e5e7eb;
+  --role-text-color: #4b5563; /* gray-600 */
+  --tab-content-bg: #ffffff;
+  --profile-box-bg: #ffffff;
+}
+
+/* Dark mode styles */
+.dark {
+  --bg-color: #1a202c;
+  --text-color: #e2e8f0;
+  --header-border-color: #4a5568;
+  --tab-bg-color: #2d3748;
+  --tab-text-color-active: #90cdf4; /* lighter blue */
+  --tab-text-color-inactive: #63b3ed; /* lighter blue */
+  --tab-border-color: #4a5568;
+  --role-text-color: #cbd5e0; /* Even lighter gray for role text in dark mode */
+  --tab-content-bg: #2d3748;
+  --profile-box-bg: #2d3748;
+  --placeholder-color: #a0aec0; /* Darker placeholder color for dark mode */
+  --select-option-bg: #2d3748; /* Background for select options in dark mode */
+  --select-option-text: #e2e8f0; /* Text color for select options in dark mode */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Styles for select options in dark mode */
+.dark select option {
+  background-color: var(--select-option-bg);
+  color: var(--select-option-text);
+}
+
+/* Placeholder text color */
+input::placeholder, textarea::placeholder {
+  color: var(--placeholder-color);
+}
+
+/* Apply theme variables to existing elements */
+.header {
+  border-bottom-color: var(--header-border-color);
+}
+
+.text-gray-600 { /* For role text */
+  color: var(--role-text-color);
+}
+
+.bg-white { /* For tab buttons */
+  background-color: var(--tab-bg-color);
+}
+
+.text-blue-700 { /* For active tab text */
+  color: var(--tab-text-color-active);
+}
+
+.text-blue-500 { /* For inactive tab text */
+  color: var(--tab-text-color-inactive);
+}
+
+.border-b { /* For tab border */
+  border-color: var(--tab-border-color);
+}
+
+.border-l, .border-t, .border-r { /* For active tab borders */
+  border-color: var(--tab-border-color);
+}
+
+.tab-content, .profile-box {
+  background-color: var(--tab-content-bg);
+}
+
+/* Specific styles from +page.svelte that need to be global or adjusted */
+.skillsync-title {
+  font-size: 3rem; /* Reduced size */
+  font-weight: bold;
+  color: #ff69b4; /* Pink color */
+  text-shadow:
+    4px 4px 0px #ff1493,   /* Deeper pink for shadow */
+    8px 8px 0px #c71585,   /* Even deeper pink */
+    12px 12px 0px #8b008b; /* Darkest pink/purple for depth */
+  padding: 10px 20px; /* Added left and right padding */
+  margin-bottom: 10px;
+}
+
+.dark .skillsync-title {
+  color: #ff69b4; /* Pink color */
+  text-shadow:
+    4px 4px 0px #ff1493,   /* Deeper pink for shadow */
+    8px 8px 0px #c71585,   /* Even deeper pink */
+    12px 12px 0px #8b008b; /* Darkest pink/purple for depth */
+}
+
+.profile-box {
+  box-shadow: 24px 24px 48px rgba(236,72,153,0.08), -8px -8px 24px rgba(236,72,153,0.04);
+  border-radius: 12px;
+  padding: 28px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.dark .profile-box {
+  box-shadow: 24px 24px 48px rgba(236,72,153,0.08), -8px -8px 24px rgba(236,72,153,0.04);
+}
+
+/* Two-column layout styles */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for all tabs except profile */
+  gap: 28px;
+  align-items: start;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.profile-full-width {
+  max-width: 1600px; /* Further increased width for a wider profile section */
+  margin: 0 auto;
+}
+
+/* Responsive: stack columns on narrow screens */
+@media (max-width: 900px) {
+  .dashboard-grid, .profile-full-width {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 12px;
+  }
+
+  .profile-box {
+    padding: 20px;
+  }
+}

@@ -1,16 +1,23 @@
 package com.skillsync.skillsyncbackend;
 
+import com.skillsync.skillsyncbackend.model.JobPosting;
+import com.skillsync.skillsyncbackend.repository.JobPostingRepository;
 import com.skillsync.skillsyncbackend.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
     private final UserService userService;
+    private final JobPostingRepository jobPostingRepository;
 
-    public DataInitializer(UserService userService) {
+    public DataInitializer(UserService userService, JobPostingRepository jobPostingRepository) {
         this.userService = userService;
+        this.jobPostingRepository = jobPostingRepository;
     }
 
     @Override
@@ -26,6 +33,18 @@ public class DataInitializer implements CommandLineRunner {
         if (userService.findByUsername("recruiter").isEmpty() && userService.findByEmail("recruiter@example.com").isEmpty()) {
             userService.registerUser("recruiter", "recruiterpass", "RECRUITER", "recruiter@example.com");
             System.out.println("Default recruiter user created: recruiter/recruiterpass");
+        }
+        if (jobPostingRepository.count() == 0) {
+            List<JobPosting> initialJobPostings = Arrays.asList(
+                    new JobPosting("Software Engineer", "Tech Solutions Inc.", "Develop and maintain software applications.", Arrays.asList("Java", "Spring Boot", "Microservices"), "http://techsolutions.com/se", "New York", "Full-time", 100000.00),
+                    new JobPosting("Frontend Developer", "Web Innovations", "Build responsive user interfaces.", Arrays.asList("JavaScript", "React", "HTML", "CSS"), "http://webinnovations.com/fd", "Remote", "Full-time", 90000.00),
+                    new JobPosting("Data Scientist", "Data Insights Corp.", "Analyze complex data sets and build predictive models.", Arrays.asList("Python", "R", "Machine Learning", "SQL"), "http://datainsights.com/ds", "San Francisco", "Full-time", 120000.00),
+                    new JobPosting("UX Designer", "Creative Minds", "Design intuitive and engaging user experiences.", Arrays.asList("Figma", "Sketch", "User Research"), "http://creativeminds.com/ux", "London", "Contract", 75000.00),
+                    new JobPosting("DevOps Engineer", "Cloud Builders", "Manage and optimize cloud infrastructure.", Arrays.asList("AWS", "Docker", "Kubernetes", "CI/CD"), "http://cloudbuilders.com/devops", "Seattle", "Full-time", 110000.00),
+                    new JobPosting("Full Stack Developer", "Global Tech Solutions", "Develop and maintain both frontend and backend systems.", Arrays.asList("Java", "Spring Boot", "Angular", "TypeScript", "SQL"), "http://globaltech.com/fsd", "Chennai", "Full-time", 130000.00) // Added to match user's filter
+            );
+            jobPostingRepository.saveAll(initialJobPostings);
+            System.out.println("Initialized " + initialJobPostings.size() + " job postings.");
         }
     }
 }

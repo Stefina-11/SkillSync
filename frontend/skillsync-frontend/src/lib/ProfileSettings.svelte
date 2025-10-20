@@ -174,15 +174,15 @@
   }
 </script>
 
-<div class="bg-white p-4 rounded-lg" style="box-shadow: 12px 12px 24px rgba(236,72,153,0.12), -6px -6px 18px rgba(236,72,153,0.06);">
+<div class="bg-gray-100 p-4 rounded-lg dark:bg-gray-900" style="box-shadow: 12px 12px 24px rgba(236,72,153,0.12), -6px -6px 18px rgba(236,72,153,0.06);">
   <h2 class="text-xl font-semibold mb-2 text-pink-600">Your Profile</h2>
   {#if profile}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 items-start">
       <div class="col-span-1 md:col-span-2 lg:col-span-3 flex justify-between items-center mb-2">
         <div>
           <div class="text-lg text-pink-600 font-semibold">{fullName || profile.username}</div>
-          <div class="text-sm text-gray-600">{jobTitle || '—'}</div>
-          <div class="mt-0.5 text-sm"><b class="text-gray-700">Role:</b> <span class="text-gray-600">{profile.role.replace('ROLE_', '')}</span></div>
+          <div class="text-sm text-gray-600 dark:text-gray-300">{jobTitle || '—'}</div>
+          <div class="mt-0.5 text-sm"><b class="text-gray-700 dark:text-gray-200">Role:</b> <span class="text-gray-600 dark:text-gray-300">{profile.role.replace('ROLE_', '')}</span></div>
         </div>
         <div class="relative w-20 h-20 cursor-pointer" on:click={openAvatarModal}>
           {#if avatarDataUrl}
@@ -204,63 +204,63 @@
 
       <div class="col-span-1">
         <label for="emailInput" class="block mb-0.5 text-pink-600 text-xs">Email:</label>
-        <input id="emailInput" type="email" bind:value={email} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
+          <input id="emailInput" type="email" bind:value={email} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
       </div>
 
       <div class="col-span-1">
         <label for="phoneInput" class="block mb-0.5 text-pink-600 text-xs">Phone:</label>
-        <input id="phoneInput" type="text" bind:value={phone} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
+          <input id="phoneInput" type="text" bind:value={phone} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
       </div>
 
       <div class="col-span-1">
         <label for="fullNameInput" class="block mb-0.5 text-pink-600 text-xs">Full Name:</label>
-        <input id="fullNameInput" type="text" bind:value={fullName} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
+          <input id="fullNameInput" type="text" bind:value={fullName} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
       </div>
 
       <div class="col-span-1">
         <label for="jobTitleInput" class="block mb-0.5 text-pink-600 text-xs">Current Job Title:</label>
-        <input id="jobTitleInput" type="text" bind:value={jobTitle} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
+          <input id="jobTitleInput" type="text" bind:value={jobTitle} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" disabled={!editing} />
       </div>
 
       <div class="col-span-1">
         <label class="block mb-0.5 text-pink-600 text-xs">Career Level:</label>
-        <select bind:value={careerLevel} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
-          <option value="">Select...</option>
-          <option value="Student">Student</option>
-          <option value="Fresher">Fresher</option>
-          <option value="Professional">Professional</option>
-          <option value="Manager">Manager</option>
+        <select bind:value={careerLevel} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
+          <option value="" class="dark:bg-gray-800 dark:text-gray-200">Select...</option>
+          <option value="Student" class="dark:bg-gray-800 dark:text-gray-200">Student</option>
+          <option value="Fresher" class="dark:bg-gray-800 dark:text-gray-200">Fresher</option>
+          <option value="Professional" class="dark:bg-gray-800 dark:text-gray-200">Professional</option>
+          <option value="Manager" class="dark:bg-gray-800 dark:text-gray-200">Manager</option>
         </select>
       </div>
 
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
         <label for="bioInput" class="block mb-0.5 text-pink-600 text-xs">Bio:</label>
-        <textarea id="bioInput" bind:value={bio} class="border px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" rows="5" disabled={!editing}></textarea>
+        <textarea id="bioInput" bind:value={bio} class="border px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" rows="5" disabled={!editing}></textarea>
       </div>
 
       <div class="col-span-1">
         <label for="linkedinInput" class="block mb-0.5 text-pink-600 text-xs">LinkedIn:</label>
-        <input id="linkedinInput" type="url" bind:value={linkedin} placeholder="https://www.linkedin.com/in/yourname" class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} disabled={!editing} />
+        <input id="linkedinInput" type="url" bind:value={linkedin} placeholder="https://www.linkedin.com/in/yourname" class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} disabled={!editing} />
       </div>
       <div class="col-span-1">
         <label for="githubInput" class="block mb-0.5 text-pink-600 text-xs">GitHub:</label>
-        <input id="githubInput" type="url" bind:value={github} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" placeholder="https://github.com/yourusername" disabled={!editing} />
+        <input id="githubInput" type="url" bind:value={github} class="border px-2 py-2 w-full max-w-lg focus:outline-none focus:ring-2 focus:ring-pink-300 rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 dark:disabled:border-gray-700 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" placeholder="https://github.com/yourusername" disabled={!editing} />
       </div>
 
       {#if editing}
         <div class="col-span-1">
           <label class="block mb-0.5 text-pink-600 text-xs">Change Avatar:</label>
-          <input type="file" accept="image/*" on:change={(e) => onAvatarSelected(e.target.files?.[0] || null)} class="text-xs" />
+          <input type="file" accept="image/*" on:change={(e) => onAvatarSelected(e.target.files?.[0] || null)} class="text-xs dark:text-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400" />
         </div>
 
         <div class="col-span-1">
           <label class="block mb-0.5 text-pink-600 text-xs">Change Password:</label>
-          <input id="newPasswordInput" type="password" bind:value={newPassword} class="border px-2 py-2 w-full max-w-lg rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" />
+          <input id="newPasswordInput" type="password" bind:value={newPassword} class="border px-2 py-2 w-full max-w-lg rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" />
         </div>
 
         <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2">
-          <button on:click={saveProfile} class="bg-pink-600 text-white px-3 py-1.5 rounded shadow hover:bg-pink-700 text-sm">Save Profile</button>
-          <button on:click={cancelEdit} class="ml-2 bg-gray-100 px-2.5 py-1 rounded text-sm">Cancel</button>
+          <button on:click={saveProfile} class="bg-pink-600 text-white px-3 py-1.5 rounded shadow hover:bg-pink-700 text-sm dark:bg-pink-700">Save Profile</button>
+          <button on:click={cancelEdit} class="ml-2 bg-gray-100 px-2.5 py-1 rounded text-sm dark:bg-gray-700 dark:text-gray-200">Cancel</button>
         </div>
       {/if}
       <div class="col-span-1 md:col-span-2 lg:col-span-3">
@@ -278,7 +278,7 @@
         {/if}
       </div>
 
-      <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2 border-t pt-2 section-box">
+      <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2 border-t pt-2 section-box dark:bg-gray-800">
         <button on:click={() => (showJobPreferences = !showJobPreferences)} class="w-full text-left font-semibold text-pink-600 text-base mb-1 flex justify-between items-center">
           Job Preferences
           <svg class="w-3 h-3 transition-transform {showJobPreferences ? 'rotate-90' : ''}" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -286,12 +286,12 @@
         {#if showJobPreferences}
           <div class="mb-1">
             <label class="block mb-0.5 text-pink-600 text-xs">Preferred Locations (comma separated)</label>
-            <input type="text" bind:value={preferredLocationsString} class="border px-2 py-2 w-full max-w-lg rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
+            <input type="text" bind:value={preferredLocationsString} class="border px-2 py-2 w-full max-w-lg rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label class="block mb-0.5 text-pink-600 text-xs">Work Type</label>
-              <select bind:value={workType} class="border px-2 py-1 w-full rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
+              <select bind:value={workType} class="border px-2 py-1 w-full rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
                 <option value="">Select...</option>
                 <option value="Remote">Remote</option>
                 <option value="Hybrid">Hybrid</option>
@@ -300,7 +300,7 @@
             </div>
             <div>
               <label class="block mb-0.5 text-pink-600 text-xs">Employment Type</label>
-              <select bind:value={employmentType} class="border px-2 py-1 w-full rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
+              <select bind:value={employmentType} class="border px-2 py-1 w-full rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:change={() => editing = true}>
                 <option value="">Select...</option>
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
@@ -311,22 +311,22 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
             <div>
               <label class="block mb-0.5 text-pink-600 text-xs">Expected Salary (Min)</label>
-              <input type="number" bind:value={expectedSalaryRange.min} class="border px-2 py-1 w-full rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
+              <input type="number" bind:value={expectedSalaryRange.min} class="border px-2 py-1 w-full rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
             </div>
             <div>
               <label class="block mb-0.5 text-pink-600 text-xs">Expected Salary (Max)</label>
-              <input type="number" bind:value={expectedSalaryRange.max} class="border px-2 py-1 w-full rounded text-xs" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
+              <input type="number" bind:value={expectedSalaryRange.max} class="border px-2 py-1 w-full rounded text-xs dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:placeholder-gray-400" style="box-shadow: 0 0 6px rgba(236,72,153,0.25);" on:input={() => editing = true} />
             </div>
           </div>
           <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2">
-            <button on:click={saveProfile} class="bg-pink-600 text-white px-3 py-1.5 rounded shadow hover:bg-pink-700 text-sm">Save Job Preferences</button>
+            <button on:click={saveProfile} class="bg-pink-600 text-white px-3 py-1.5 rounded shadow hover:bg-pink-700 text-sm dark:bg-pink-700">Save Job Preferences</button>
           </div>
         {/if}
       </div>
 
       <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-2">
         <label class="block mb-0.5 text-pink-600 text-xs">Profile Completion</label>
-        <div class="w-full bg-gray-200 rounded h-1.5">
+        <div class="w-full bg-gray-200 rounded h-1.5 dark:bg-gray-700">
           <div class="bg-green-500 h-1.5 rounded" style="width: {Math.min(100, Math.round(computeCompletion()))}%"></div>
         </div>
         <div class="text-xs mt-0.5">{Math.min(100, Math.round(computeCompletion()))}% complete</div>
@@ -371,9 +371,18 @@
 
 <style>
   .section-box {
-    background: #fff;
+    background: var(--tab-content-bg); /* Use theme variable for background */
     box-shadow: 12px 12px 28px rgba(236,72,153,0.06), -6px -6px 18px rgba(236,72,153,0.03);
     padding: 12px;
     border-radius: 8px;
+  }
+
+  /* Dark mode specific adjustments for text within section-box */
+  .dark .section-box .text-pink-600 {
+    color: #ff69b4; /* Ensure pink headings remain pink */
+  }
+
+  .dark .section-box .text-blue-600 {
+    color: #90cdf4; /* Lighter blue for links in dark mode */
   }
 </style>

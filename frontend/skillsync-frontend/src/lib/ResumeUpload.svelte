@@ -79,7 +79,7 @@
   {/if}
   <div class="mb-3">
     {#if uploadedResumeName}
-      <p class="text-gray-700 mb-2">Currently uploaded resume: <span class="font-semibold">{uploadedResumeName}</span></p>
+      <p class="text-gray-700 dark:text-gray-300 mb-2">Currently uploaded resume: <span class="font-semibold">{uploadedResumeName}</span></p>
     {/if}
     <input type="file" accept=".docx, .pdf" on:change={(e) => {
       const target = e.target as HTMLInputElement;

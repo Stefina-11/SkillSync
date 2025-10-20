@@ -9,6 +9,7 @@
   import ProfileSettings from '$lib/ProfileSettings.svelte';
   import RecruiterJobManagement from '$lib/RecruiterJobManagement.svelte';
   import AdminDashboard from '$lib/AdminDashboard.svelte';
+  import { theme, toggleTheme } from '$lib/themeStore';
 
   // Auth state read from localStorage
   let token = '';
@@ -48,20 +49,23 @@
 </script>
 
 <div class="w-full mx-auto px-8 py-2"> <!-- Reduced max-w-screen-xl -->
-  <header class="flex items-center justify-between mb-2">
+  <header class="flex items-center justify-between mb-2 border-b var(--header-border-color)">
     <h1 class="skillsync-title">SkillSync</h1>
     <div class="flex items-center gap-3">
-      <div class="text-sm text-gray-600">{role.replace('ROLE_', '')}</div>
+      <button on:click={toggleTheme} class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white px-3 py-1 rounded">
+        {$theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      <div class="text-sm text-gray-600 dark:text-gray-300">{role.replace('ROLE_', '')}</div>
       <button on:click={logout} class="bg-red-500 text-white px-3 py-1 rounded">Logout</button>
     </div>
   </header>
 
   <nav class="mb-6">
-    <ul class="flex border-b">
+    <ul class="flex border-b border-[var(--tab-border-color)]">
       {#if role === 'ROLE_USER'}
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'profile' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'profile' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'profile')}
           >
             Profile
@@ -69,7 +73,7 @@
         </li>
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'resume_upload' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'resume_upload' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'resume_upload')}
           >
             Upload Resume
@@ -77,7 +81,7 @@
         </li>
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'job_search' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'job_search' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'job_search')}
           >
             Job Search
@@ -85,7 +89,7 @@
         </li>
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'my_applications' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'my_applications' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'my_applications')}
           >
             My Applications
@@ -93,7 +97,7 @@
         </li>
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'favorites' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'favorites' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'favorites')}
           >
             Favorites
@@ -103,7 +107,7 @@
       {#if role === 'ROLE_RECRUITER'}
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'recruiter_jobs' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'recruiter_jobs' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'recruiter_jobs')}
           >
             Manage Jobs
@@ -113,7 +117,7 @@
       {#if role === 'ROLE_ADMIN'}
         <li class="-mb-px mr-1">
           <button
-            class="bg-white inline-block py-2 px-4 font-semibold {activeTab === 'admin_dashboard' ? 'border-l border-t border-r rounded-t text-blue-700' : 'text-blue-500 hover:text-blue-800'}"
+            class="bg-[var(--tab-bg-color)] inline-block py-2 px-4 font-semibold {activeTab === 'admin_dashboard' ? 'border-l border-t border-r rounded-t text-[var(--tab-text-color-active)] border-[var(--tab-border-color)]' : 'text-[var(--tab-text-color-inactive)] hover:text-[var(--tab-text-color-active)]'}"
             on:click={() => (activeTab = 'admin_dashboard')}
           >
             Admin Dashboard
@@ -157,63 +161,6 @@
     </div>
   </main>
 </div>
-
-<style>
-  .skillsync-title {
-    font-size: 3rem; /* Reduced size */
-    font-weight: bold;
-    color: #ff69b4; /* Pink color */
-    text-shadow:
-      4px 4px 0px #ff1493,   /* Deeper pink for shadow */
-      8px 8px 0px #c71585,   /* Even deeper pink */
-      12px 12px 0px #8b008b; /* Darkest pink/purple for depth */
-    padding: 10px 20px; /* Added left and right padding */
-    margin-bottom: 10px;
-  }
-
-  header {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
-  }
-
-  .profile-box {
-    background: #fff;
-    box-shadow: 24px 24px 48px rgba(236,72,153,0.08), -8px -8px 24px rgba(236,72,153,0.04);
-    border-radius: 12px;
-    padding: 28px 48px;
-    max-width: 1600px;
-    margin: 0 auto;
-  }
-
-    /* Two-column layout styles */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr; /* Single column for all tabs except profile */
-      gap: 28px;
-      align-items: start;
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-
-    .profile-full-width {
-      max-width: 1600px; /* Further increased width for a wider profile section */
-      margin: 0 auto;
-    }
-
-    /* Responsive: stack columns on narrow screens */
-    @media (max-width: 900px) {
-      .dashboard-grid, .profile-full-width {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 0 12px;
-      }
-
-      .profile-box {
-        padding: 20px;
-      }
-    }
-</style>
 
 <!-- Confirm modal instance (reads modalStore) -->
 <ConfirmModal />

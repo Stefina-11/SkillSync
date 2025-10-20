@@ -11,6 +11,7 @@
   let matchResult: any = null;
   let favorites: any[] = [];
   let appError: string = '';
+  let showFullDescription: { [key: number]: boolean } = {}; // To manage description toggle for each job
 
   // Job filters
   let filterKeyword: string = '';
@@ -74,27 +75,58 @@
   }
 </script>
 
-<div class="bg-white shadow p-4 rounded">
+<div class="bg-white shadow p-4 rounded dark:bg-gray-800 dark:text-gray-200">
   <h2 class="text-2xl font-semibold mb-2">Job Postings</h2>
-  <div class="mb-4 p-3 border rounded bg-gray-50">
+  <div class="mb-4 p-3 border rounded bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
     <div class="flex flex-wrap gap-2 mb-2">
-      <input placeholder="Keyword" bind:value={filterKeyword} class="border px-2 py-1" />
-      <input placeholder="Location" bind:value={filterLocation} class="border px-2 py-1" />
-      <input placeholder="Job Type" bind:value={filterJobType} class="border px-2 py-1" />
-      <input placeholder="Min Salary" type="number" bind:value={filterMinSalary} class="border px-2 py-1" />
+      <input placeholder="Keyword" bind:value={filterKeyword} class="border px-2 py-1 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" />
+      <input placeholder="Location" bind:value={filterLocation} class="border px-2 py-1 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" />
+      <input placeholder="Job Type" bind:value={filterJobType} class="border px-2 py-1 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" />
+      <input placeholder="Min Salary" type="number" bind:value={filterMinSalary} class="border px-2 py-1 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600" />
     </div>
     <div>
-      <button on:click={fetchJobs} class="bg-green-500 text-white px-4 py-2 rounded mr-2">Apply Filters</button>
-      <button on:click={() => { filterKeyword=''; filterLocation=''; filterJobType=''; filterMinSalary=null; fetchJobs(); }} class="bg-gray-200 px-3 py-1 rounded">Clear</button>
+      <button on:click={fetchJobs} class="bg-pink-500 text-white px-4 py-2 rounded mr-2">Apply Filters</button>
+      <button on:click={() => { filterKeyword=''; filterLocation=''; filterJobType=''; filterMinSalary=null; fetchJobs(); }} class="bg-gray-200 dark:bg-gray-700 dark:text-gray-200 px-3 py-1 rounded">Clear</button>
     </div>
   </div>
 
   {#if jobPostings.length > 0}
     <div class="space-y-4">
       {#each jobPostings as job (job.id)}
-        <div class="border p-4 rounded bg-white">
-          <h3 class="text-xl font-semibold">{job.title}</h3>
-          <p class="text-gray-600">{job.company}</p>
+        <div class="border p-4 rounded bg-white shadow-lg shadow-pink-500/50 dark:bg-gray-700 dark:border-gray-600">
+          <h3 class="text-xl font-semibold dark:text-gray-100">{job.title}</h3>
+          <p class="text-gray-600 dark:text-gray-300">{job.company}</p>
+          <p class="text-gray-500 text-sm dark:text-gray-400">{job.location} - {job.jobType}</p>
+          {#if job.salary}
+            <p class="text-gray-500 text-sm dark:text-gray-400">Salary: ${job.salary.toLocaleString()}</p>
+          {/if}
+
+          {#if job.skills && job.skills.length > 0}
+            <div class="mt-2">
+              <p class="font-semibold dark:text-gray-200">Skills:</p>
+              <div class="flex flex-wrap gap-1">
+                {#each job.skills as skill}
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-blue-800 dark:text-blue-100">{skill}</span>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          <div class="mt-2 text-gray-700 text-sm dark:text-gray-300">
+            <p>
+              {#if job.description}
+                {showFullDescription[job.id] ? job.description : job.description.substring(0, 200) + '...'}
+                {#if job.description.length > 200}
+                  <button on:click={() => showFullDescription[job.id] = !showFullDescription[job.id]} class="text-blue-600 hover:underline dark:text-blue-400">
+                    {showFullDescription[job.id] ? 'Read less' : 'Read more'}
+                  </button>
+                {/if}
+              {:else}
+                No description available.
+              {/if}
+            </p>
+          </div>
+
           <div class="mt-3 flex flex-wrap gap-2">
             <button on:click={() => matchSkillsHandler(job.id)} class="bg-purple-500 text-white px-4 py-2 rounded">Match</button>
             {#if token && role === 'ROLE_USER'}

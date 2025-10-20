@@ -32,11 +32,15 @@
 <div class="bg-white shadow p-4 rounded">
   <h2 class="text-2xl font-semibold mb-2">Favorites</h2>
   {#if favorites.length > 0}
-    <ul>
+    <div class="space-y-4">
       {#each favorites as fav}
-        <li class="mb-2">{fav.title} — {fav.company} <button on:click={() => toggleFavoriteHandler(fav.id)} class="ml-2 text-sm text-red-600">Remove</button></li>
+        <div class="border p-4 rounded bg-white shadow-lg shadow-pink-500/50">
+          <h4 class="text-lg font-semibold">{fav.title}</h4>
+          <p class="text-gray-600">{fav.company}</p>
+          <button on:click={() => toggleFavoriteHandler(fav.id)} class="mt-2 text-sm text-red-600 hover:underline">Remove from Favorites</button>
+        </div>
       {/each}
-    </ul>
+    </div>
   {:else}
     <div>No favorites yet.</div>
   {/if}
