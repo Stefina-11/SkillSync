@@ -3,7 +3,10 @@ package com.skillsync.skillsyncbackend.controller;
 
 import com.skillsync.skillsyncbackend.model.JobPosting;
 import com.skillsync.skillsyncbackend.model.Resume;
+import com.skillsync.skillsyncbackend.model.JobPosting;
+import com.skillsync.skillsyncbackend.model.User; // Import User model
 import com.skillsync.skillsyncbackend.repository.JobPostingRepository;
+import com.skillsync.skillsyncbackend.repository.UserRepository; // Import UserRepository
 import com.skillsync.skillsyncbackend.service.JobScrapingService;
 import com.skillsync.skillsyncbackend.service.ResumeService;
 import com.skillsync.skillsyncbackend.service.SkillMatchingService;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication; // Import Authentication
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,21 +44,37 @@ public class JobController {
 
     @Autowired
     private JobPostingRepository jobPostingRepository;
+    @Autowired
+    private UserRepository userRepository; // Inject UserRepository
 
     // Recruiter endpoints: create, update, delete
     @PostMapping
     @PreAuthorize("hasRole('RECRUITER')")
-    public ResponseEntity<JobPosting> createJob(@RequestBody JobPosting job) {
+    public ResponseEntity<JobPosting> createJob(@RequestBody JobPosting job, Authentication authentication) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        job.setRecruiterId(currentUser.getId()); // Set the recruiterId
         JobPosting saved = jobPostingRepository.save(job);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public ResponseEntity<JobPosting> updateJob(@PathVariable Long id, @RequestBody JobPosting updated) {
+    public ResponseEntity<JobPosting> updateJob(@PathVariable Long id, @RequestBody JobPosting updated, Authentication authentication) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
         var opt = jobPostingRepository.findById(id);
         if (opt.isEmpty()) return ResponseEntity.notFound().build();
         JobPosting existing = opt.get();
+
+        // Ensure the current user is the recruiter who posted the job
+        if (!existing.getRecruiterId().equals(currentUser.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         existing.setTitle(updated.getTitle());
         existing.setCompany(updated.getCompany());
         existing.setDescription(updated.getDescription());
@@ -63,14 +83,27 @@ public class JobController {
         existing.setLocation(updated.getLocation());
         existing.setJobType(updated.getJobType());
         existing.setSalary(updated.getSalary());
+        // recruiterId should not be changed during update
         jobPostingRepository.save(existing);
         return ResponseEntity.ok(existing);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public ResponseEntity<?> deleteJobById(@PathVariable Long id) {
-        if (!jobPostingRepository.existsById(id)) return ResponseEntity.notFound().build();
+    public ResponseEntity<?> deleteJobById(@PathVariable Long id, Authentication authentication) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
+        var opt = jobPostingRepository.findById(id);
+        if (opt.isEmpty()) return ResponseEntity.notFound().build();
+        JobPosting existing = opt.get();
+
+        // Ensure the current user is the recruiter who posted the job
+        if (!existing.getRecruiterId().equals(currentUser.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
         jobPostingRepository.deleteById(id);
         return ResponseEntity.ok(Map.of("deleted", id));
     }

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/resumes")
@@ -45,8 +46,32 @@ public class ResumeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PostMapping("/{id}/ats-check")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
+    public ResponseEntity<Resume> performAtsCheck(@PathVariable Long id) {
+        return resumeService.performAtsCheck(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/rate")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
+    public ResponseEntity<Resume> rateResume(@PathVariable Long id, @RequestBody Map<String, Integer> payload) {
+        Integer rating = payload.get("rating");
+        if (rating == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            return resumeService.updateRecruiterRating(id, rating)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'RECRUITER')")
     public ResponseEntity<Resume> getResume(@PathVariable Long id) {
         return resumeService.getResume(id)
                 .map(ResponseEntity::ok)

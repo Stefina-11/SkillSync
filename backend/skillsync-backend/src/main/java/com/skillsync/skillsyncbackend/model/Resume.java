@@ -17,15 +17,21 @@ public class Resume {
     @ElementCollection
     private List<String> skills;
     private Long userId; // Link to the User who uploaded the resume
+    private Double atsScore; // ATS score for the resume
+    private String atsFeedback; // Feedback from ATS check
+    private Integer recruiterRating; // Recruiter's rating for the resume (e.g., 1-5)
 
     public Resume() {
     }
 
-    public Resume(String filename, String content, List<String> skills, Long userId) {
+    public Resume(String filename, String content, List<String> skills, Long userId, Double atsScore, String atsFeedback, Integer recruiterRating) {
         this.filename = filename;
         this.content = content;
         this.skills = skills;
         this.userId = userId;
+        this.atsScore = atsScore;
+        this.atsFeedback = atsFeedback;
+        this.recruiterRating = recruiterRating;
     }
 
     public Long getId() {
@@ -66,5 +72,29 @@ public class Resume {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Double getAtsScore() {
+        return atsScore;
+    }
+
+    public void setAtsScore(Double atsScore) {
+        this.atsScore = atsScore;
+    }
+
+    public String getAtsFeedback() {
+        return atsFeedback;
+    }
+
+    public void setAtsFeedback(String atsFeedback) {
+        this.atsFeedback = atsFeedback;
+    }
+
+    public Integer getRecruiterRating() {
+        return recruiterRating;
+    }
+
+    public void setRecruiterRating(Integer recruiterRating) {
+        this.recruiterRating = recruiterRating;
     }
 }

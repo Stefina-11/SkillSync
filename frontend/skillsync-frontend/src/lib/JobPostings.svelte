@@ -44,8 +44,10 @@
     try {
       await toggleFavorite(token, jobId);
       favorites = await getFavorites(token);
+      alert('Favorite status updated!'); // Acknowledgment for favorite
     } catch (e) {
       console.error('Failed to toggle favorite', e);
+      alert('Failed to update favorite status.');
     }
   }
 
@@ -58,8 +60,10 @@
     try {
       const data = await matchSkills(jobId, resumeId);
       matchResult = { ...data, jobId: jobId };
+      alert('Skills matched successfully!'); // Acknowledgment for match
     } catch (error) {
       console.error('Error matching skills:', error);
+      alert('Failed to match skills.');
     }
   }
 
@@ -68,9 +72,11 @@
     try {
       await applyToJob(token, jobId);
       appError = '';
+      alert('Application submitted successfully!'); // Acknowledgment for apply
       // Optionally refresh applications list here if it were in this component
     } catch (e: any) {
       appError = e?.message || 'Failed to apply';
+      alert(e?.message || 'Failed to apply to job.');
     }
   }
 </script>

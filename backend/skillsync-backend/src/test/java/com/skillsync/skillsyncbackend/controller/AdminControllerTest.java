@@ -57,9 +57,11 @@ public class AdminControllerTest {
                 new User("admin", "pass", "ROLE_ADMIN", "admin@example.com")
         ));
 
+        // Use a dummy recruiterId for test job postings
+        Long dummyRecruiterId = 1L; 
         jobPostingRepository.saveAll(List.of(
-                new JobPosting("Dev", "Acme", "desc", List.of("Java"), "http://"),
-                new JobPosting("QA", "Acme", "desc", List.of("Testing"), "http://")
+                new JobPosting("Dev", "Acme", "desc", List.of("Java"), "http://", dummyRecruiterId),
+                new JobPosting("QA", "Acme", "desc", List.of("Testing"), "http://", dummyRecruiterId)
         ));
     }
 

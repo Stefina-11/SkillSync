@@ -21,19 +21,21 @@ public class JobPosting {
     private String location;
     private String jobType;
     private Double salary;
+    private Long recruiterId; // Link to the User who posted the job
 
     public JobPosting() {
     }
 
-    public JobPosting(String title, String company, String description, List<String> skills, String url) {
+    public JobPosting(String title, String company, String description, List<String> skills, String url, Long recruiterId) {
         this.title = title;
         this.company = company;
         this.description = description;
         this.skills = skills;
         this.url = url;
+        this.recruiterId = recruiterId;
     }
 
-    public JobPosting(String title, String company, String description, List<String> skills, String url, String location, String jobType, Double salary) {
+    public JobPosting(String title, String company, String description, List<String> skills, String url, String location, String jobType, Double salary, Long recruiterId) {
         this.title = title;
         this.company = company;
         this.description = description;
@@ -42,6 +44,7 @@ public class JobPosting {
         this.location = location;
         this.jobType = jobType;
         this.salary = salary;
+        this.recruiterId = recruiterId;
     }
 
     public Long getId() {
@@ -114,5 +117,13 @@ public class JobPosting {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Long getRecruiterId() {
+        return recruiterId;
+    }
+
+    public void setRecruiterId(Long recruiterId) {
+        this.recruiterId = recruiterId;
     }
 }

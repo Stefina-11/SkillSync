@@ -43,7 +43,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
-    http.cors().and().csrf(csrf -> csrf.disable())
+        http
+            .csrf(csrf -> csrf.disable()) // Disable CSRF explicitly
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/jobs").permitAll() // Allow unauthenticated access to GET /api/jobs

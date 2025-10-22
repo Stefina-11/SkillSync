@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.context.SecurityContextHolder; // Import for SecurityContextHolder
 
 @RestController
 @RequestMapping("/api/applications")
@@ -45,5 +46,43 @@ public class JobApplicationController {
         if (user == null) return ResponseEntity.badRequest().build();
         List<JobApplication> apps = jobApplicationRepository.findByUser(user);
         return ResponseEntity.ok(apps);
+    }
+
+    @DeleteMapping("/{applicationId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteApplication(@PathVariable Long applicationId, Authentication authentication) {
+        String username = authentication.getName();
+        User currentUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
+        JobApplication application = jobApplicationRepository.findById(applicationId)
+                .orElseThrow(() -> new RuntimeException("Job application not found"));
+
+        // Ensure the current user is the one who submitted this application
+        if (!application.getUser().getId().equals(currentUser.getId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
+        }
+
+        jobApplicationRepository.delete(application);
+        return ResponseEntity.ok(Map.of("message", "Application deleted successfully"));
+    }
+
+    @GetMapping("/job/{jobId}")
+    @PreAuthorize("hasAnyRole('RECRUITER', 'ADMIN')")
+    public ResponseEntity<List<JobApplication>> getApplicationsForJob(@PathVariable Long jobId, Authentication authentication) {
+        String currentUsername = authentication.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        JobPosting jobPosting = jobPostingRepository.findById(jobId)
+                .orElseThrow(() -> new RuntimeException("Job posting not found"));
+
+        // Ensure the recruiter owns this job posting or is an admin
+        if (jobPosting.getRecruiterId() == null || (!jobPosting.getRecruiterId().equals(currentUser.getId()) && !authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")))) {
+            return ResponseEntity.status(403).build(); // Forbidden
+        }
+
+        List<JobApplication> applications = jobApplicationRepository.findByJobPosting(jobPosting);
+        return ResponseEntity.ok(applications);
     }
 }

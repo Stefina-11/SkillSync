@@ -13,11 +13,55 @@ export async function applyToJob(token: string, jobId: number) {
   return response.json();
 }
 
+export async function getApplicationsForJob(token: string, jobId: number) {
+  const response = await fetch(`${BASE_URL}/api/applications/job/${jobId}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!response.ok) throw new Error('Failed to fetch job applications');
+  return response.json();
+}
+
+export async function getResumeById(token: string, resumeId: number) {
+  const response = await fetch(`${BASE_URL}/api/resumes/${resumeId}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!response.ok) throw new Error('Failed to fetch resume by ID');
+  return response.json();
+}
+
+export async function performAtsCheck(token: string, resumeId: number) {
+  const response = await fetch(`${BASE_URL}/api/resumes/${resumeId}/ats-check`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!response.ok) throw new Error('Failed to perform ATS check');
+  return response.json();
+}
+
+export async function rateResume(token: string, resumeId: number, rating: number) {
+  const response = await fetch(`${BASE_URL}/api/resumes/${resumeId}/rate`, {
+    method: 'PUT',
+    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ rating })
+  });
+  if (!response.ok) throw new Error('Failed to rate resume');
+  return response.json();
+}
+
 export async function getMyApplications(token: string) {
   const response = await fetch(`${BASE_URL}/api/applications`, {
     headers: { 'Authorization': `Bearer ${token}` }
   });
   if (!response.ok) throw new Error('Failed to fetch applications');
+  return response.json();
+}
+
+export async function deleteApplication(token: string, applicationId: number) {
+  const response = await fetch(`${BASE_URL}/api/applications/${applicationId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!response.ok) throw new Error('Failed to delete application');
   return response.json();
 }
 

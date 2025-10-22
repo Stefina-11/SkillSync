@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random; // Import Random for simulating ATS score
 
 @Service
 public class ResumeService {
@@ -51,9 +52,45 @@ public class ResumeService {
             resume.setContent(content);
             resume.setSkills(skills);
         } else {
-            resume = new Resume(file.getOriginalFilename(), content, skills, currentUser.getId());
+            // Use the new constructor with default values for ATS score, feedback, and rating
+            resume = new Resume(file.getOriginalFilename(), content, skills, currentUser.getId(), null, null, null);
         }
         return resumeRepository.save(resume);
+    }
+
+    /**
+     * Simulates an ATS check for a given resume.
+     * In a real application, this would integrate with an external ATS API.
+     * @param resumeId The ID of the resume to check.
+     * @return The updated Resume object with ATS score and feedback.
+     */
+    public Optional<Resume> performAtsCheck(Long resumeId) {
+        return resumeRepository.findById(resumeId).map(resume -> {
+            // Simulate ATS score and feedback
+            Random random = new Random();
+            double atsScore = 50.0 + (100.0 - 50.0) * random.nextDouble(); // Score between 50 and 100
+            String atsFeedback = "Automated feedback: Resume shows good potential. Consider tailoring keywords for specific roles.";
+
+            resume.setAtsScore(Math.round(atsScore * 100.0) / 100.0); // Round to 2 decimal places
+            resume.setAtsFeedback(atsFeedback);
+            return resumeRepository.save(resume);
+        });
+    }
+
+    /**
+     * Updates the recruiter rating for a given resume.
+     * @param resumeId The ID of the resume to rate.
+     * @param rating The recruiter's rating (e.g., 1-5).
+     * @return The updated Resume object with the new rating.
+     */
+    public Optional<Resume> updateRecruiterRating(Long resumeId, Integer rating) {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5.");
+        }
+        return resumeRepository.findById(resumeId).map(resume -> {
+            resume.setRecruiterRating(rating);
+            return resumeRepository.save(resume);
+        });
     }
 
     public Optional<Resume> getResume(Long id) {

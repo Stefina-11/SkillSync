@@ -22,12 +22,11 @@ public class JobScrapingService {
 
     public List<JobPosting> fetchAndSaveJobPostings() {
         List<JobPosting> jobPostings = new ArrayList<>();
-        // Mock data for now
-        jobPostings.add(new JobPosting("Software Engineer", "Google", "Develop and maintain software.", Arrays.asList("Java", "Spring Boot", "REST API", "SQL"), "http://mockjobs.com/google-se"));
-        jobPostings.add(new JobPosting("Frontend Developer", "Facebook", "Build user interfaces.", Arrays.asList("JavaScript", "React", "HTML", "CSS"), "http://mockjobs.com/facebook-fe"));
-        jobPostings.add(new JobPosting("Data Scientist", "Amazon", "Analyze large datasets.", Arrays.asList("Python", "Machine Learning", "SQL", "Statistics"), "http://mockjobs.com/amazon-ds"));
-        jobPostings.add(new JobPosting("Backend Developer", "Microsoft", "Design and implement backend services.", Arrays.asList("Java", "Spring Boot", "Microservices", "Kafka"), "http://mockjobs.com/microsoft-be"));
-        jobPostings.add(new JobPosting("DevOps Engineer", "Netflix", "Manage infrastructure and deployments.", Arrays.asList("AWS", "Docker", "Kubernetes", "CI/CD"), "http://mockjobs.com/netflix-devops"));
+        jobPostings.add(new JobPosting("Software Engineer", "Google", "Develop and maintain software.", Arrays.asList("Java", "Spring Boot", "REST API", "SQL"), "http://mockjobs.com/google-se", null));
+        jobPostings.add(new JobPosting("Frontend Developer", "Facebook", "Build user interfaces.", Arrays.asList("JavaScript", "React", "HTML", "CSS"), "http://mockjobs.com/facebook-fe", null));
+        jobPostings.add(new JobPosting("Data Scientist", "Amazon", "Analyze large datasets.", Arrays.asList("Python", "Machine Learning", "SQL", "Statistics"), "http://mockjobs.com/amazon-ds", null));
+        jobPostings.add(new JobPosting("Backend Developer", "Microsoft", "Design and implement backend services.", Arrays.asList("Java", "Spring Boot", "Microservices", "Kafka"), "http://mockjobs.com/microsoft-be", null));
+        jobPostings.add(new JobPosting("DevOps Engineer", "Netflix", "Manage infrastructure and deployments.", Arrays.asList("AWS", "Docker", "Kubernetes", "CI/CD"), "http://mockjobs.com/netflix-devops", null));
 
         jobPostingRepository.saveAll(jobPostings);
         return jobPostings;

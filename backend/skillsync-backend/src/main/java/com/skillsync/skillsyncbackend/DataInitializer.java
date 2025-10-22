@@ -35,13 +35,17 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Default recruiter user created: recruiter/recruiterpass");
         }
         if (jobPostingRepository.count() == 0) {
+            // Assuming 'recruiter' user gets ID 3 based on the order of creation in this initializer
+            // In a real application, you would fetch the recruiter's ID dynamically.
+            Long recruiterId = userService.findByUsername("recruiter").map(user -> user.getId()).orElse(3L);
+
             List<JobPosting> initialJobPostings = Arrays.asList(
-                    new JobPosting("Software Engineer", "Tech Solutions Inc.", "Develop and maintain software applications.", Arrays.asList("Java", "Spring Boot", "Microservices"), "http://techsolutions.com/se", "New York", "Full-time", 100000.00),
-                    new JobPosting("Frontend Developer", "Web Innovations", "Build responsive user interfaces.", Arrays.asList("JavaScript", "React", "HTML", "CSS"), "http://webinnovations.com/fd", "Remote", "Full-time", 90000.00),
-                    new JobPosting("Data Scientist", "Data Insights Corp.", "Analyze complex data sets and build predictive models.", Arrays.asList("Python", "R", "Machine Learning", "SQL"), "http://datainsights.com/ds", "San Francisco", "Full-time", 120000.00),
-                    new JobPosting("UX Designer", "Creative Minds", "Design intuitive and engaging user experiences.", Arrays.asList("Figma", "Sketch", "User Research"), "http://creativeminds.com/ux", "London", "Contract", 75000.00),
-                    new JobPosting("DevOps Engineer", "Cloud Builders", "Manage and optimize cloud infrastructure.", Arrays.asList("AWS", "Docker", "Kubernetes", "CI/CD"), "http://cloudbuilders.com/devops", "Seattle", "Full-time", 110000.00),
-                    new JobPosting("Full Stack Developer", "Global Tech Solutions", "Develop and maintain both frontend and backend systems.", Arrays.asList("Java", "Spring Boot", "Angular", "TypeScript", "SQL"), "http://globaltech.com/fsd", "Chennai", "Full-time", 130000.00) // Added to match user's filter
+                    new JobPosting("Software Engineer", "Tech Solutions Inc.", "Develop and maintain software applications.", Arrays.asList("Java", "Spring Boot", "Microservices"), "http://techsolutions.com/se", "New York", "Full-time", 100000.00, recruiterId),
+                    new JobPosting("Frontend Developer", "Web Innovations", "Build responsive user interfaces.", Arrays.asList("JavaScript", "React", "HTML", "CSS"), "http://webinnovations.com/fd", "Remote", "Full-time", 90000.00, recruiterId),
+                    new JobPosting("Data Scientist", "Data Insights Corp.", "Analyze complex data sets and build predictive models.", Arrays.asList("Python", "R", "Machine Learning", "SQL"), "http://datainsights.com/ds", "San Francisco", "Full-time", 120000.00, recruiterId),
+                    new JobPosting("UX Designer", "Creative Minds", "Design intuitive and engaging user experiences.", Arrays.asList("Figma", "Sketch", "User Research"), "http://creativeminds.com/ux", "London", "Contract", 75000.00, recruiterId),
+                    new JobPosting("DevOps Engineer", "Cloud Builders", "Manage and optimize cloud infrastructure.", Arrays.asList("AWS", "Docker", "Kubernetes", "CI/CD"), "http://cloudbuilders.com/devops", "Seattle", "Full-time", 110000.00, recruiterId),
+                    new JobPosting("Full Stack Developer", "Global Tech Solutions", "Develop and maintain both frontend and backend systems.", Arrays.asList("Java", "Spring Boot", "Angular", "TypeScript", "SQL"), "http://globaltech.com/fsd", "Chennai", "Full-time", 130000.00, recruiterId)
             );
             jobPostingRepository.saveAll(initialJobPostings);
             System.out.println("Initialized " + initialJobPostings.size() + " job postings.");

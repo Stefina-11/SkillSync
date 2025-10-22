@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { loginUser, registerUser } from '$lib/apiService';
     import { goto } from '$app/navigation';
+    import { theme } from '$lib/themeStore';
 
 
     let username = '';
@@ -31,6 +33,13 @@
       const t = localStorage.getItem('token');
       if (t) goto('/dashboard');
     }
+
+    onMount(() => {
+      theme.set('light');
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+      }
+    });
   </script>
 
   <div class="h-screen w-screen overflow-hidden flex">
